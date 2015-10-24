@@ -1,7 +1,7 @@
 class Admin::AccountsController < ApplicationController
 
   def index
-    @accounts = Account.all
+    @accounts = Account.all.order(:origin_id)
   end
 
   def show
