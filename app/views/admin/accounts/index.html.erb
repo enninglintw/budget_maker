@@ -12,6 +12,7 @@
       <th>exchange_rate</th>
       <th>balance</th>
       <th>updated_at</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -22,8 +23,8 @@
         <td><%= account.exchange_rate %></td>
         <td><%= account.balance %></td>
         <td><%= account.updated_at %></td>
+        <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
