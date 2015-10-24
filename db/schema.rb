@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151024133013) do
+ActiveRecord::Schema.define(version: 20151024152754) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",          limit: 255
+    t.integer  "origin_id",     limit: 4
     t.string   "currency",      limit: 255,                          default: "TWD"
     t.decimal  "exchange_rate",             precision: 20, scale: 5, default: 1.0
     t.decimal  "balance",                   precision: 20, scale: 5, default: 0.0
