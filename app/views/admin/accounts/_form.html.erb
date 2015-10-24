@@ -1,0 +1,29 @@
+<%= form_for [:admin, @account] do |f| %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :currency %><br>
+    <%= f.text_field :currency, required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exchange_rate %><br>
+    <%= f.number_field :exchange_rate, required: true, step: 0.00001, min: 0 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :balance %><br>
+    <%= f.number_field :balance, required: true, step: 0.00001 %>
+  </div>
+  <br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  <br>
+
+<% end %>
