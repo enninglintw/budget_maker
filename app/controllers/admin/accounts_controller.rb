@@ -34,6 +34,12 @@ class Admin::AccountsController < ApplicationController
     end
   end
 
+  def destroy
+    @account = Account.find(params[:id])
+    @account.destroy
+    redirect_to admin_accounts_path
+  end
+
   private
 
   def account_params

@@ -12,7 +12,7 @@
       <th>exchange_rate</th>
       <th>balance</th>
       <th>updated_at</th>
-      <th></th>
+      <th colspan="2">actions</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +24,7 @@
         <td><%= account.balance %></td>
         <td><%= account.updated_at %></td>
         <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
+        <td><%= link_to 'delete', admin_account_path(account), method: :delete, data: { confirm: "Are you sure?" } %></td>
       </tr>
     <% end %>
   </tbody>
