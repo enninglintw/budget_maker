@@ -4,6 +4,13 @@
   <%= link_to '新增 Account', new_admin_account_path %>
 </button>
 
+<div>
+  總淨資產: <%= render_net_assets_in_twd %><br>
+  台幣淨資產: <%= render_sum_balance_in("TWD") %><br>
+  美金淨資產: <%= render_sum_balance_in("USD") %><br>
+  韓元淨資產: <%= render_sum_balance_in("KRW") %><br>
+</div>
+
 <table>
   <thead>
     <tr>

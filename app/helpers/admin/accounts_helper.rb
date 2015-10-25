@@ -1,5 +1,16 @@
 module Admin::AccountsHelper
 
+  def render_net_assets_in_twd
+    number_to_currency(Account.net_assets_in_twd,
+                       precision: 0)
+  end
+
+  def render_sum_balance_in(currency)
+    number_to_currency(Account.sum_balance_in(currency),
+                       precision: 5,
+                       strip_insignificant_zeros: true)
+  end
+
   def render_currency(account)
     account.currency.upcase
   end
