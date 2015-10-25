@@ -21,4 +21,10 @@ module Admin::AccountsHelper
                        precision: 0)
   end
 
+  def render_updated_at(account)
+    account.updated_at.
+            to_date.
+            to_formatted_s(:db)
+  end
+
 end
