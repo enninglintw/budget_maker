@@ -22,10 +22,10 @@
         <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
         <td><%= link_to 'delete', admin_account_path(account), method: :delete, data: { confirm: "Are you sure?" } %></td>
         <td><%= link_to(account.name, admin_account_path(account)) %></td>
-        <td><%= account.currency %></td>
-        <td><%= account.balance %></td>
-        <td><%= account.exchange_rate %></td>
-        <td><%= account.balance_in_twd %></td>
+        <td><%= render_currency(account) %></td>
+        <td><%= render_balance(account) %></td>
+        <td><%= render_exchange_rate(account) %></td>
+        <td><%= render_balance_in_twd(account) %></td>
         <td><%= account.updated_at %></td>
       </tr>
     <% end %>
