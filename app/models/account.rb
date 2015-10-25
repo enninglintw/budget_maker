@@ -2,6 +2,8 @@ class Account < ActiveRecord::Base
 
   validates_presence_of :name, :currency, :exchange_rate, :init_balance
 
+  has_many :transactions
+
   def self.net_assets_in_twd
     all.map(&:balance_in_twd).inject(:+)
   end
