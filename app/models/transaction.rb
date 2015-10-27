@@ -20,7 +20,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def current_balance
-    current_transactions.inject(account.balance) do |sum, transaction|
+    current_transactions.inject(account.init_balance) do |sum, transaction|
       sum + transaction.amount
     end
   end

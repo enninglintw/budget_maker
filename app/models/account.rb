@@ -17,7 +17,9 @@ class Account < ActiveRecord::Base
   end
 
   def balance
-    init_balance
+    transactions.inject(init_balance) do |sum, transaction|
+      sum + transaction.amount
+    end
   end
 
 end
