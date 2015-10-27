@@ -43,7 +43,7 @@ class Admin::AccountsController < ApplicationController
   private
 
   def account_params
-    params.require(:account).permit(:name, :currency, :exchange_rate, :balance)
+    params.require(:account).permit(:name, :currency, :exchange_rate, :init_balance)
   end
 
 end
