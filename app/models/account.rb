@@ -4,22 +4,30 @@ class Account < ActiveRecord::Base
 
   has_many :transactions
 
-  def self.net_assets_in_twd
-    all.map(&:balance_in_twd).inject(:+)
-  end
-
-  def self.sum_balance_in(currency)
-    where(currency: currency).map(&:balance).inject(:+)
+  def balance
+    transactions.inject(init_balance) do |sum, transaction|
+      sum + transaction.amount
+    end
   end
 
   def balance_in_twd
     (balance * exchange_rate).round
   end
 
-  def balance
-    transactions.inject(init_balance) do |sum, transaction|
-      sum + transaction.amount
+  class << self
+
+    def all_currencies
+      pluck(:currency).uniq
     end
+
+    def balance(currency)
+      where(currency: currency).map(&:balance).inject(:+)
+    end
+
+    def balance_in_twd(currency)
+      where(currency: currency).map(&:balance_in_twd).inject(:+)
+    end
+
   end
 
 end
