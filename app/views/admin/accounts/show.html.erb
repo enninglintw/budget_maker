@@ -1,7 +1,7 @@
 <div>
   <h1>Account - <%= @account.name %></h1>
   <p>
-    <%= "#{@account.currency} #{@account.balance} (exchange_rate: #{@account.exchange_rate})" %>
+    <%= render_info(@account) %>
   </p>
 </div>
 

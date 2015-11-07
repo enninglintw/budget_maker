@@ -10,4 +10,11 @@ module Admin::AccountsHelper
                           strip_insignificant_zeros: true)
   end
 
+  def render_info(account)
+    currency      = render_currency(account)
+    balance       = render_number_to_currency(account.balance)
+    exchange_rate = render_exchange_rate(account)
+    "#{currency} #{balance} (exchange_rate: #{exchange_rate})"
+  end
+
 end
