@@ -6,8 +6,12 @@ module ApplicationHelper
                        strip_insignificant_zeros: true)
   end
 
-  def render_updated_at(updated_at)
-    updated_at.to_formatted_s(:long)
+  def render_date_to_db_format(date)
+    date.to_formatted_s(:db)
+  end
+
+  def render_datetime_to_short_format(datetime)
+    datetime.to_formatted_s(:short)
   end
 
 end

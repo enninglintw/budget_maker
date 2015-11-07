@@ -30,14 +30,14 @@
                           admin_transaction_path(transaction),
                           method: :delete,
                           data: { confirm: "Are you sure?" }) %></td>
-          <td><%= render_date(transaction) %></td>
+          <td><%= render_date_to_db_format(transaction.date) %></td>
           <td><%= transaction.category %></td>
           <td><%= transaction.note %></td>
           <td><%= render_number_to_currency(transaction.income) %></td>
           <td><%= render_number_to_currency(transaction.expense) %></td>
           <td><%= render_number_to_currency(transaction.transfer) %></td>
           <td><%= render_number_to_currency(transaction.current_balance) %></td>
-          <td><%= render_updated_at(transaction.updated_at) %></td>
+          <td><%= render_datetime_to_short_format(transaction.updated_at) %></td>
         </tr>
       <% end %>
     </tbody>

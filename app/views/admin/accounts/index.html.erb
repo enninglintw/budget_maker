@@ -59,7 +59,7 @@
         <td><%= render_number_to_currency(account.balance) %></td>
         <td><%= render_exchange_rate(account) %></td>
         <td><%= render_number_to_currency(account.balance_in_twd) %></td>
-        <td><%= render_updated_at(account.updated_at) %></td>
+        <td><%= render_datetime_to_short_format(account.updated_at) %></td>
       </tr>
     <% end %>
   </tbody>
