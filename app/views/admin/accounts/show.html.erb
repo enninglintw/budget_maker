@@ -31,7 +31,7 @@
                           method: :delete,
                           data: { confirm: "Are you sure?" }) %></td>
           <td><%= render_date(transaction) %></td>
-          <td><%= render_category(transaction) %></td>
+          <td><%= transaction.category %></td>
           <td><%= transaction.note %></td>
           <td><%= render_number_to_currency(transaction.income) %></td>
           <td><%= render_number_to_currency(transaction.expense) %></td>

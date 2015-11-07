@@ -3,7 +3,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :account
 
   def transfer_account
-    Account.find(transfer_account_id) if transfer_account_id
+    Account.find(transfer_account_id) if transfer?
   end
 
   def previous
@@ -26,15 +26,34 @@ class Transaction < ActiveRecord::Base
   end
 
   def transfer?
-    transfer_account_id.present?
+    category1 == "轉帳"
+  end
+
+  def transfer
+    amount if transfer?
+  end
+
+  def income?
+    category1 == "收入"
   end
 
   def income
-    amount if amount > 0
+    amount if income?
+  end
+
+  def expense?
+    category1 == "支出"
   end
 
   def expense
-    amount if amount <= 0
+    amount if expense?
   end
 
+  def category
+    if transfer?
+      category1 + "(to #{transfer_account.try(:name)})"
+    else
+      category1 + "(#{try(:category2)})"
+    end
+  end
 end
