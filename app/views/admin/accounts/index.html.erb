@@ -37,6 +37,7 @@
     <tr>
       <th colspan="2">actions</th>
       <th>name</th>
+      <th>transactions_count</th>
       <th>currency</th>
       <th>balance</th>
       <th>exchange_rate</th>
@@ -53,6 +54,7 @@
                         method: :delete,
                         data: { confirm: "Are you sure?" }) %></td>
         <td><%= link_to(account.name, admin_account_path(account)) %></td>
+        <td><%= account.transactions_count %></td>
         <td><%= render_currency(account) %></td>
         <td><%= render_number_to_currency(account.balance) %></td>
         <td><%= render_exchange_rate(account) %></td>

@@ -1,6 +1,6 @@
 class Transaction < ActiveRecord::Base
 
-  belongs_to :account
+  belongs_to :account, counter_cache: true
 
   def transfer_account
     Account.find(transfer_account_id) if transfer?
