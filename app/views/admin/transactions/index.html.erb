@@ -1,0 +1,50 @@
+<h2>All Transactions</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th colspan="2"></th>
+      <th>date</th>
+      <th>account</th>
+      <th>category</th>
+      <th>note</th>
+      <th>收入</th>
+      <th>支出</th>
+      <th>轉帳</th>
+      <th>updated_at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= link_to(content_tag(:i, "", class: "fa fa-pencil"),
+                        edit_admin_transaction_path(transaction)) %></td>
+        <td><%= link_to(content_tag(:i, "", class: "fa fa-trash"),
+                        admin_transaction_path(transaction),
+                        method: :delete,
+                        data: { confirm: "Are you sure?" }) %></td>
+        <td><%= render_date_to_db_format(transaction.date) %></td>
+        <td><%= transaction.account.name %></td>
+        <td><%= transaction.category %></td>
+        <td><%= transaction.note %></td>
+        <td><%= render_number_to_currency(transaction.income) %></td>
+        <td><%= render_number_to_currency(transaction.expense) %></td>
+        <td><%= render_number_to_currency(transaction.transfer) %></td>
+        <td><%= render_datetime_to_short_format(transaction.updated_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="2"></th>
+      <th>總計</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th><%= render_number_to_currency(@transactions.sum_income) %></th>
+      <th><%= render_number_to_currency(@transactions.sum_expense) %></th>
+      <th><%= render_number_to_currency(@transactions.sum_transfer) %></th>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
