@@ -14,7 +14,7 @@ module Admin::AccountsHelper
     currency      = render_currency(account)
     balance       = render_number_to_currency(account.balance)
     exchange_rate = render_exchange_rate(account)
-    "#{currency} #{balance} (exchange_rate: #{exchange_rate})"
+    "#{currency} #{balance} (匯率: #{exchange_rate})"
   end
 
 end

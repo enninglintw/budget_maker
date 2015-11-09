@@ -56,4 +56,27 @@ class Transaction < ActiveRecord::Base
       category1 + "(#{try(:category2)})"
     end
   end
+
+  class << self
+
+    def sum_income
+      where(category1: "收入").inject(0) do |sum, transaction|
+        sum + transaction.income
+      end
+    end
+
+    def sum_expense
+      where(category1: "支出").inject(0) do |sum, transaction|
+        sum + transaction.expense
+      end
+    end
+
+    def sum_transfer
+      where(category1: "轉帳").inject(0) do |sum, transaction|
+        sum + transaction.transfer
+      end
+    end
+
+  end
+
 end
