@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : assan
     Author     : Design_mylife
     Description:assan multi-page for Multipurpose use
@@ -103,7 +103,7 @@ h2 {
   font-size: 2.6em;
   font-weight: 700;
   line-height: 42px;
-  margin: 0 0 32px 0; }
+  margin: 0 0 15px 0; }
 
 h3 {
   font-size: 1.8em;
@@ -358,7 +358,7 @@ p.sub-text {
   -moz-box-shadow: rgba(0, 0, 0, 0.11765) 0px 1px 3px;
   -ms-box-shadow: rgba(0, 0, 0, 0.11765) 0px 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.11765) 0px 1px 3px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #f8f8f8;
   clear: both;
   -moz-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
@@ -2038,9 +2038,9 @@ ul.post-desc li + li {
 /************************************************* css for footers****************************************/
 /* #footer is by default*/
 #footer {
-  background: #111;
+  background: #f8f8f8;
   font-size: 0.9em;
-  padding: 80px 0 0;
+  padding: 20px 0;
   position: relative;
   clear: both; }
 
@@ -2213,20 +2213,11 @@ ul.post-desc li + li {
 .social-1 li a i:hover {
   opacity: 0.8; }
 
-.social-1 li a i.fa-facebook {
+.social-1 li a i.fa-github {
+  background-color: #000000; }
+
+.social-1 li a i.fa-linkedin {
   background-color: #3b5998; }
-
-.social-1 li a i.fa-twitter {
-  background-color: #0084b4; }
-
-.social-1 li a i.fa-google-plus {
-  background-color: #C63D2D; }
-
-.social-1 li a i.fa-pinterest {
-  background-color: #cb2027; }
-
-.social-1 li a i.fa-dribbble {
-  background-color: #ea4c89; }
 
 /**************coming soon*************/
 .soon-bg {
