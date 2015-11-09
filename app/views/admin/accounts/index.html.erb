@@ -4,18 +4,40 @@
   <%= link_to '新增 Account', new_admin_account_path %>
 </button>
 
-<div>
-  總淨資產: <%= render_net_assets_in_twd %><br>
-  台幣淨資產: <%= render_sum_balance_in("TWD") %><br>
-  美金淨資產: <%= render_sum_balance_in("USD") %><br>
-  韓元淨資產: <%= render_sum_balance_in("KRW") %><br>
-</div>
+<h2>淨資產</h2>
+<table>
+  <thead>
+    <tr>
+      <th>currency</th>
+      <th>in original currency</th>
+      <th>in TWD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts.all_currencies.each do |currency| %>
+      <tr>
+        <td><%= currency %></td>
+        <td><%= render_number_to_currency(@accounts.balance(currency)) %></td>
+        <td><%= render_number_to_currency(@accounts.balance_in_twd(currency)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>總計</td>
+      <td></td>
+      <td><%= render_number_to_currency(@accounts.balance_in_twd(@accounts.all_currencies)) %></td>
+    </tr>
+  </tfoot>
+</table>
 
+<h2>帳戶列表</h2>
 <table>
   <thead>
     <tr>
       <th colspan="2">actions</th>
       <th>name</th>
+      <th>transactions_count</th>
       <th>currency</th>
       <th>balance</th>
       <th>exchange_rate</th>
@@ -27,13 +49,17 @@
     <% @accounts.each do |account| %>
       <tr>
         <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
-        <td><%= link_to 'delete', admin_account_path(account), method: :delete, data: { confirm: "Are you sure?" } %></td>
+        <td><%= link_to('delete',
+                        admin_account_path(account),
+                        method: :delete,
+                        data: { confirm: "Are you sure?" }) %></td>
         <td><%= link_to(account.name, admin_account_path(account)) %></td>
+        <td><%= account.transactions_count %></td>
         <td><%= render_currency(account) %></td>
-        <td><%= render_balance(account) %></td>
+        <td><%= render_number_to_currency(account.balance) %></td>
         <td><%= render_exchange_rate(account) %></td>
-        <td><%= render_balance_in_twd(account) %></td>
-        <td><%= render_updated_at(account) %></td>
+        <td><%= render_number_to_currency(account.balance_in_twd) %></td>
+        <td><%= render_datetime_to_short_format(account.updated_at) %></td>
       </tr>
     <% end %>
   </tbody>
