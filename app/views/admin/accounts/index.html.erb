@@ -1,41 +1,9 @@
-<h1>Accounts</h1>
+<h2>All Accounts</h2>
 
-<button>
-  <%= link_to '新增 Account', new_admin_account_path %>
-</button>
-
-<h2>淨資產</h2>
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>currency</th>
-      <th>in original currency</th>
-      <th>in TWD</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @accounts.all_currencies.each do |currency| %>
-      <tr>
-        <td><%= currency %></td>
-        <td><%= render_number_to_currency(@accounts.balance(currency)) %></td>
-        <td><%= render_number_to_currency(@accounts.balance_in_twd(currency)) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td>總計</td>
-      <td></td>
-      <td><%= render_number_to_currency(@accounts.balance_in_twd(@accounts.all_currencies)) %></td>
-    </tr>
-  </tfoot>
-</table>
-
-<h2>帳戶列表</h2>
-<table>
-  <thead>
-    <tr>
-      <th colspan="2">actions</th>
+      <th colspan="2"></th>
       <th>name</th>
       <th>transactions_count</th>
       <th>currency</th>
@@ -48,8 +16,9 @@
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
-        <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
-        <td><%= link_to('delete',
+        <td><%= link_to(content_tag(:i, "", class: "fa fa-pencil"),
+                        edit_admin_account_path(account)) %></td>
+        <td><%= link_to(content_tag(:i, "", class: "fa fa-trash"),
                         admin_account_path(account),
                         method: :delete,
                         data: { confirm: "Are you sure?" }) %></td>
@@ -63,4 +32,28 @@
       </tr>
     <% end %>
   </tbody>
+  <tfoot>
+    <% @accounts.all_currencies.each do |currency| %>
+      <tr>
+        <th colspan="2"></th>
+        <th><%= "總計 #{currency}" %></th>
+        <th></th>
+        <th><%= currency %></th>
+        <th><%= render_number_to_currency(@accounts.balance(currency)) %></th>
+        <th></th>
+        <th><%= render_number_to_currency(@accounts.balance_in_twd(currency)) %></th>
+        <th></th>
+      </tr>
+    <% end %>
+    <tr>
+      <th colspan="2"></th>
+      <th>總計</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th><%= render_number_to_currency(@accounts.balance_in_twd(@accounts.all_currencies)) %></th>
+      <th></th>
+    </tr>
+  </tfoot>
 </table>
