@@ -1,0 +1,40 @@
+<h1>Accounts</h1>
+
+<button>
+  <%= link_to '新增 Account', new_admin_account_path %>
+</button>
+
+<div>
+  總淨資產: <%= render_net_assets_in_twd %><br>
+  台幣淨資產: <%= render_sum_balance_in("TWD") %><br>
+  美金淨資產: <%= render_sum_balance_in("USD") %><br>
+  韓元淨資產: <%= render_sum_balance_in("KRW") %><br>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">actions</th>
+      <th>name</th>
+      <th>currency</th>
+      <th>balance</th>
+      <th>exchange_rate</th>
+      <th>balance_in_twd</th>
+      <th>updated_at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts.each do |account| %>
+      <tr>
+        <td><%= link_to('edit', edit_admin_account_path(account)) %></td>
+        <td><%= link_to 'delete', admin_account_path(account), method: :delete, data: { confirm: "Are you sure?" } %></td>
+        <td><%= link_to(account.name, admin_account_path(account)) %></td>
+        <td><%= render_currency(account) %></td>
+        <td><%= render_balance(account) %></td>
+        <td><%= render_exchange_rate(account) %></td>
+        <td><%= render_balance_in_twd(account) %></td>
+        <td><%= render_updated_at(account) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,12 @@
+<div>
+  <h1>Account - <%= @account.name %></h1>
+  <p>
+    <%= "#{@account.currency} #{@account.balance} (exchange_rate: #{@account.exchange_rate})" %>
+  </p>
+</div>
+
+<div>
+  <h2>Details</h2>
+</div>
+
+<%= link_to '回到 Accounts 列表', admin_accounts_path %>
