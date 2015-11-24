@@ -7,7 +7,7 @@
     <tr>
       <th colspan="2"></th>
       <th>date</th>
-      <th>category</th>
+      <th>detail</th>
       <th>note</th>
       <th>收入</th>
       <th>支出</th>
@@ -26,11 +26,11 @@
                         method: :delete,
                         data: { confirm: "Are you sure?" }) %></td>
         <td><%= render_date_to_db_format(transaction.date) %></td>
-        <td><%= transaction.category %></td>
+        <td><%= transaction.detail %></td>
         <td><%= transaction.note %></td>
-        <td><%= render_number_to_currency(transaction.income) %></td>
-        <td><%= render_number_to_currency(transaction.expense) %></td>
-        <td><%= render_number_to_currency(transaction.transfer) %></td>
+        <td><%= render_number_to_currency(transaction.amount) if transaction.income? %></td>
+        <td><%= render_number_to_currency(transaction.amount) if transaction.expense? %></td>
+        <td><%= render_number_to_currency(transaction.amount) if transaction.transfer? %></td>
         <td><%= render_number_to_currency(transaction.current_balance) %></td>
         <td><%= render_datetime_to_short_format(transaction.updated_at) %></td>
       </tr>
@@ -42,9 +42,9 @@
       <th>總計</th>
       <th></th>
       <th></th>
-      <th><%= render_number_to_currency(@transactions.sum_income) %></th>
-      <th><%= render_number_to_currency(@transactions.sum_expense) %></th>
-      <th><%= render_number_to_currency(@transactions.sum_transfer) %></th>
+      <th><%= render_number_to_currency(@transactions.incomes.sum(:amount)) %></th>
+      <th><%= render_number_to_currency(@transactions.expenses.sum(:amount)) %></th>
+      <th><%= render_number_to_currency(@transactions.transfers.sum(:amount)) %></th>
       <th></th>
       <th></th>
     </tr>
