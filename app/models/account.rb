@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id                 :integer          not null, primary key
+#  name               :string(255)
+#  origin_id          :integer
+#  currency           :string(255)      default("TWD")
+#  exchange_rate      :decimal(20, 5)   default(1.0)
+#  init_balance       :decimal(20, 5)   default(0.0)
+#  transactions_count :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 class Account < ActiveRecord::Base
 
   validates_presence_of :name, :currency, :exchange_rate, :init_balance
