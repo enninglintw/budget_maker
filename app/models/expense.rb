@@ -16,4 +16,5 @@
 #
 
 class Expense < Transaction
+  validates_presence_of :category
 end

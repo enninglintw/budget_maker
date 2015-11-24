@@ -16,4 +16,5 @@
 #
 
 class Income < Transaction
+  validates_presence_of :category
 end

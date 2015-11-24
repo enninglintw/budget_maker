@@ -17,6 +17,8 @@
 
 class Transaction < ActiveRecord::Base
 
+  validates_presence_of :account_id, :date, :type, :amount
+
   belongs_to :account, counter_cache: true
 
   scope :transfers, -> { where(type: 'Transfer') }
