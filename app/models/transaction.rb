@@ -19,6 +19,10 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :account, counter_cache: true
 
+  scope :transfers, -> { where(type: 'Transfer') }
+  scope :incomes,   -> { where(type: 'Income') }
+  scope :expenses,  -> { where(type: 'Expense') }
+
   def transfer_account
     Account.find(transfer_account_id) if transfer?
   end
