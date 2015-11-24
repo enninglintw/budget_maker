@@ -26,8 +26,8 @@ class Transaction < ActiveRecord::Base
   scope :incomes,   -> { where(type: 'Income') }
   scope :expenses,  -> { where(type: 'Expense') }
 
-  def transfer_account
-    Account.find(transfer_account_id) if transfer?
+  def counterpart_account
+    Account.find(counterpart_account_id) if transfer?
   end
 
   def previous
@@ -63,7 +63,7 @@ class Transaction < ActiveRecord::Base
 
   def detail
     if transfer?
-      type + "(to #{transfer_account.try(:name)})"
+      type + "(to #{counterpart_account.try(:name)})"
     else
       type + "(#{try(:category)})"
     end
