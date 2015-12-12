@@ -26,6 +26,10 @@ class Transaction < ActiveRecord::Base
   scope :incomes,   -> { where(type: 'Income') }
   scope :expenses,  -> { where(type: 'Expense') }
 
+  def transfer?() type == "Transfer" end
+  def income?()   type == "Income"   end
+  def expense?()  type == "Expense"  end
+
   def counterpart_account
     Account.find(counterpart_account_id) if transfer?
   end
@@ -47,18 +51,6 @@ class Transaction < ActiveRecord::Base
     current_transactions.inject(account.init_balance) do |sum, transaction|
       sum + transaction.amount
     end
-  end
-
-  def transfer?
-    type == "Transfer"
-  end
-
-  def income?
-    type == "Income"
-  end
-
-  def expense?
-    type == "Expense"
   end
 
   def detail
