@@ -2,30 +2,42 @@
 #
 # Table name: transactions
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  transfer_account_id :integer
-#  origin_id           :integer
-#  date                :date
-#  type                :string(255)
-#  category            :string(255)
-#  note                :text(65535)
-#  amount              :decimal(20, 5)
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                     :integer          not null, primary key
+#  account_id             :integer
+#  counterpart_id         :integer
+#  counterpart_account_id :integer
+#  origin_id              :integer
+#  date                   :date
+#  type                   :string(255)
+#  category               :string(255)
+#  note                   :text(65535)
+#  amount                 :decimal(20, 5)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 
 class Transaction < ActiveRecord::Base
 
+  validates_presence_of :account_id, :date, :type, :amount
+
   belongs_to :account, counter_cache: true
+
+  has_one    :counterpart_to,   foreign_key: "counterpart_id",
+                                class_name:  "Transaction"
+  belongs_to :counterpart_from, foreign_key: "counterpart_id",
+                                class_name:  "Transaction",
+                                dependent:   :destroy
+
+  after_save :create_counterpart, if: :transfer?, unless: "counterpart.present?"
+  after_save :update_counterpart, if: :transfer?, unless: :counterpart_is_updated?
 
   scope :transfers, -> { where(type: 'Transfer') }
   scope :incomes,   -> { where(type: 'Income') }
   scope :expenses,  -> { where(type: 'Expense') }
 
-  def transfer_account
-    Account.find(transfer_account_id) if transfer?
-  end
+  def transfer?() type == "Transfer" end
+  def income?()   type == "Income"   end
+  def expense?()  type == "Expense"  end
 
   def previous
     self.class.
@@ -46,24 +58,50 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def transfer?
-    type == "Transfer"
-  end
-
-  def income?
-    type == "Income"
-  end
-
-  def expense?
-    type == "Expense"
-  end
-
   def detail
-    if transfer?
-      type + "(to #{transfer_account.try(:name)})"
-    else
-      type + "(#{try(:category)})"
-    end
+    sub_detail =
+      if transfer?
+        from_or_to = (amount >= 0) ? "from" : "to"
+        [from_or_to, " ", counterpart.account.name].join("")
+      else
+        category
+      end
+    [type, " (", sub_detail, ")"].join("")
+  end
+
+  # methods for Transfer only
+  def counterpart
+    counterpart_to || counterpart_from
+  end
+
+  def counterpart_attributes
+    {account_id: counterpart_account_id,
+     counterpart_account_id: account_id,
+     counterpart_id: id,
+     date: date,
+     type: type,
+     note: note,
+     amount: -amount}
+  end
+
+  def counterpart_is_updated?
+    columns = counterpart_attributes.keys
+    columns_update_status =
+      columns.map do |column|
+        counterpart.__send__(column) == counterpart_attributes[column]
+      end.uniq.join
+    columns_update_status == "true"
+  end
+
+  private
+
+  def create_counterpart
+    create_counterpart_to(counterpart_attributes)
+    update(counterpart_id: counterpart.id)
+  end
+
+  def update_counterpart
+    counterpart.update(counterpart_attributes)
   end
 
 end
