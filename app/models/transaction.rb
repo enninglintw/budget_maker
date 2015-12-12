@@ -22,6 +22,12 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :account, counter_cache: true
 
+  has_one    :counterpart_to,   foreign_key: "counterpart_id",
+                                class_name:  "Transaction"
+  belongs_to :counterpart_from, foreign_key: "counterpart_id",
+                                class_name:  "Transaction",
+                                dependent:   :destroy
+
   scope :transfers, -> { where(type: 'Transfer') }
   scope :incomes,   -> { where(type: 'Income') }
   scope :expenses,  -> { where(type: 'Expense') }
@@ -59,6 +65,11 @@ class Transaction < ActiveRecord::Base
     else
       type + "(#{try(:category)})"
     end
+  end
+
+  # methods for Transfer only
+  def counterpart
+    counterpart_to || counterpart_from
   end
 
 end
