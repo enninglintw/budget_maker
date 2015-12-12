@@ -36,10 +36,6 @@ class Transaction < ActiveRecord::Base
   def income?()   type == "Income"   end
   def expense?()  type == "Expense"  end
 
-  def counterpart_account
-    Account.find(counterpart_account_id) if transfer?
-  end
-
   def previous
     self.class.
          where(account_id: account_id).
@@ -60,11 +56,14 @@ class Transaction < ActiveRecord::Base
   end
 
   def detail
-    if transfer?
-      type + "(to #{counterpart_account.try(:name)})"
-    else
-      type + "(#{try(:category)})"
-    end
+    sub_detail =
+      if transfer?
+        from_or_to = (amount >= 0) ? "from" : "to"
+        [from_or_to, " ", counterpart.account.name].join("")
+      else
+        category
+      end
+    [type, " (", sub_detail, ")"].join("")
   end
 
   # methods for Transfer only
