@@ -28,6 +28,8 @@ class Transaction < ActiveRecord::Base
                                 class_name:  "Transaction",
                                 dependent:   :destroy
 
+  after_save :create_counterpart, if: :transfer?, unless: "counterpart.present?"
+
   scope :transfers, -> { where(type: 'Transfer') }
   scope :incomes,   -> { where(type: 'Income') }
   scope :expenses,  -> { where(type: 'Expense') }
@@ -69,6 +71,23 @@ class Transaction < ActiveRecord::Base
   # methods for Transfer only
   def counterpart
     counterpart_to || counterpart_from
+  end
+
+  def counterpart_attributes
+    {account_id: counterpart_account_id,
+     counterpart_account_id: account_id,
+     counterpart_id: id,
+     date: date,
+     type: type,
+     note: note,
+     amount: -amount}
+  end
+
+  private
+
+  def create_counterpart
+    create_counterpart_to(counterpart_attributes)
+    update(counterpart_id: counterpart.id)
   end
 
 end
