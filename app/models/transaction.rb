@@ -29,6 +29,7 @@ class Transaction < ActiveRecord::Base
                                 dependent:   :destroy
 
   after_save :create_counterpart, if: :transfer?, unless: "counterpart.present?"
+  after_save :update_counterpart, if: :transfer?, unless: :counterpart_is_updated?
 
   scope :transfers, -> { where(type: 'Transfer') }
   scope :incomes,   -> { where(type: 'Income') }
@@ -83,11 +84,24 @@ class Transaction < ActiveRecord::Base
      amount: -amount}
   end
 
+  def counterpart_is_updated?
+    columns = counterpart_attributes.keys
+    columns_update_status =
+      columns.map do |column|
+        counterpart.__send__(column) == counterpart_attributes[column]
+      end.uniq.join
+    columns_update_status == "true"
+  end
+
   private
 
   def create_counterpart
     create_counterpart_to(counterpart_attributes)
     update(counterpart_id: counterpart.id)
+  end
+
+  def update_counterpart
+    counterpart.update(counterpart_attributes)
   end
 
 end
